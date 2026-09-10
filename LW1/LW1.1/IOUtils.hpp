@@ -1,0 +1,29 @@
+#ifndef IOUTILS_HPP
+#define IOUTILS_HPP
+
+#include "Matrix.hpp"
+
+#include <vector>
+#include <string_view>
+#include <filesystem>
+
+struct SystemInput
+{
+    Matrix A;
+    std::vector<double> b;
+};
+
+class IOUtils final
+{
+public:
+    static SystemInput read_slae(const std::filesystem::path& filepath);
+
+    static void print_matrix(const Matrix& m);
+    static void print_vector(const std::vector<double>& v);
+
+    static void print_permutation_vector(const std::vector<size_t>& P_vec);
+};
+
+
+
+#endif //IOUTILS_HPP
