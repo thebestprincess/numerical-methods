@@ -5,4 +5,4 @@ add_executable(Lab1_Task1_1
     Matrix.cpp
 )
 
-target_include_directories(Lab1_Task1_1 PRIVATE $(CMAKE_SOURCE_DIR)/shared)
+target_include_directories(Lab1_Task1_1 PRIVATE ${CMAKE_SOURCE_DIR}/shared)
