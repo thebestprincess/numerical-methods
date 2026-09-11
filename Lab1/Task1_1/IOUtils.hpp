@@ -16,8 +16,7 @@ struct SystemInput
 class IOUtils final
 {
 public:
-    static SystemInput read_slae(const std::filesystem::path& filepath);
-
+    static SystemInput read_slae(std::ifstream& file);
     static void print_matrix(const Matrix& m);
     static void print_vector(const std::vector<double>& v);
 

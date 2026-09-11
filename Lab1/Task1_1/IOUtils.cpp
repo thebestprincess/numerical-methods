@@ -6,11 +6,8 @@
 #include <print>
 #include <iostream>
 
-SystemInput IOUtils::read_slae(const std::filesystem::path& file_path)
+SystemInput IOUtils::read_slae(std::ifstream& file)
 {
-    std::ifstream file(file_path);
-    if (!file.is_open()) throw std::runtime_error("Could not open file");
-
     size_t N { 0 };
     file >> N;
 
