@@ -4,6 +4,8 @@
 #include <ranges>
 #include <cmath>
 
+namespace {
+ 
 bool verify_stability(const TriSystem& sys)
 {
     const size_t N { sys.d.size() };
@@ -29,7 +31,7 @@ bool verify_stability(const TriSystem& sys)
 
     return has_strict_inequality;
 }
-
+    
 struct ForwardPassResult
 {
     std::vector<double> P, Q;
@@ -65,6 +67,8 @@ std::vector<double> backward_pass(const std::vector<double>& P, const std::vecto
 
     return x;
 }
+
+} // namespace
 
 std::expected<TriResult, std::string_view> TriSolver::solve(const TriSystem& sys)
 {

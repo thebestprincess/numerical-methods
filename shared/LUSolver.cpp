@@ -28,6 +28,8 @@ Matrix LUResult::get_permutation_matrix(const std::vector<size_t>& P_vec)
     return P;
 }
 
+namespace {
+
 std::optional<size_t> find_pivot_row(const Matrix& U, size_t current_step, double eps)
 {
     double mx_abs { 0.0 };
@@ -48,6 +50,8 @@ std::optional<size_t> find_pivot_row(const Matrix& U, size_t current_step, doubl
 
     return pivot_row;
 }
+
+} // namespace
 
 std::optional<LUResult> LUSolver::decompose(const Matrix& A)
 {
