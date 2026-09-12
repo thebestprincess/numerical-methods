@@ -21,14 +21,14 @@ int thomas_method(const std::filesystem::path& file_path)
         {
             TriSystem ts { IOUtils::read_slae(file) };
 
-            auto solve_option { TriSolver::solve(ts) };
-            if (!solve_option.has_value())
+            auto expected_res { TriSolver::solve(ts) };
+            if (!expected_res.has_value())
             {
-                std::println("The sufficient condition for the stability of the Thomas method is not met.\n");
+                std::println(stderr, "Solution error: {}\n", expected_res.error());
                 continue;
             }
 
-            TriResult result { std::move(solve_option.value()) };
+            TriResult result { std::move(expected_res.value()) };
 
             std::println("Vector x: ");
             IOUtils::print_vector(result.x);

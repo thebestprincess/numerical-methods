@@ -30,22 +30,26 @@ bool verify_stability(const TriSystem& sys)
     return has_strict_inequality;
 }
 
-auto forward_pass(const TriSystem& sys) -> std::pair<std::vector<double>, std::vector<double>>
+struct ForwardPassResult
+{
+    std::vector<double> P, Q;
+};
+
+ForwardPassResult forward_pass(const TriSystem& sys)
 {
     const size_t N { sys.d.size() };
 
-    std::vector<double> P(N);
-    P[0] =  -sys.c[0] / sys.b[0];
-    std::vector<double> Q(N); 
-    Q[0] = sys.d[0] / sys.b[0];
+    ForwardPassResult result { std::vector<double>(N), std::vector<double>(N)};
+    result.P[0] =  -sys.c[0] / sys.b[0];
+    result.Q[0] = sys.d[0] / sys.b[0];
     for (size_t i { 1 }; i < N; ++i)
     {
-        double denominator { sys.a[i] * P[i - 1] + sys.b[i] };
-        P[i] = -sys.c[i] / denominator;
-        Q[i] = (sys.d[i] - sys.a[i] * Q[i - 1]) / denominator;
+        double denominator { sys.a[i] * result.P[i - 1] + sys.b[i] };
+        result.P[i] = -sys.c[i] / denominator;
+        result.Q[i] = (sys.d[i] - sys.a[i] * result.Q[i - 1]) / denominator;
     }
 
-    return std::pair{ std::move(P), std::move(Q) };
+    return result;
 }
 
 std::vector<double> backward_pass(const std::vector<double>& P, const std::vector<double>& Q)
@@ -62,10 +66,10 @@ std::vector<double> backward_pass(const std::vector<double>& P, const std::vecto
     return x;
 }
 
-std::optional<TriResult> TriSolver::solve(const TriSystem& sys)
+std::expected<TriResult, std::string_view> TriSolver::solve(const TriSystem& sys)
 {
-    if (!sys.d.size()) return std::nullopt;
-    if (!verify_stability(sys)) return std::nullopt;
+    if (sys.d.empty()) return std::unexpected("System is empty.");
+    if (!verify_stability(sys)) return std::unexpected("The system does not possess diagonal dominance.");
 
     auto [P, Q] = forward_pass(sys);
     std::vector<double> x = backward_pass(P, Q);

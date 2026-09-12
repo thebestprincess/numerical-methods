@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <optional>
+#include <expected>
+#include <string_view>
 
 struct TriSystem
 {
@@ -22,7 +24,7 @@ struct TriResult
 class TriSolver final
 {
 public:
-    static std::optional<TriResult> solve(const TriSystem& sys);
+    static std::expected<TriResult, std::string_view> solve(const TriSystem& sys);
 };
 
 
