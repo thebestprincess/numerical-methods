@@ -1,7 +1,6 @@
 #include "IOUtils.hpp"
 #include "Constants.hpp"
 
-#include <ranges>
 #include <print>
 
 TriSystem IOUtils::read_slae(std::ifstream& file)
