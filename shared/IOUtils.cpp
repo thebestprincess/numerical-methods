@@ -27,6 +27,20 @@ SystemInput IOUtils::read_slae(std::ifstream& file)
     return { std::move(A), std::move(b) };
 }
 
+Matrix IOUtils::read_matrix(std::ifstream& file)
+{
+    size_t N { 0 };
+    file >> N;
+    
+    Matrix A { N, N };
+    for (size_t i { 0 }; i < N; ++i)
+    {
+        for (size_t j { 0 }; j < N; ++j) file >> A(i, j);
+    }
+
+    return A;
+}
+
 void IOUtils::print_matrix(const Matrix &m)
 {
     const size_t rows { m.get_rows() };   

@@ -15,6 +15,7 @@ public:
     size_t get_cols() const;
     size_t get_rows() const;
     bool is_square() const;
+    bool is_symmetric() const;
     void swap_rows(size_t row1, size_t row2);
 
     static Matrix identity(size_t n);
@@ -25,8 +26,7 @@ public:
     friend Matrix operator*(const Matrix& lhs, const Matrix& rhs);
     friend bool operator==(const Matrix& lhs, const Matrix& rhs);
 
-private:
-    bool is_equal_to(const Matrix& rhs, double eps) const;
+    static bool is_equal_to(const Matrix& lhs, const Matrix& rhs, double eps);
 };
 
 #endif // MATRIX_LW1_HPP

@@ -4,8 +4,7 @@
 #include "Matrix.hpp"
 
 #include <vector>
-#include <string_view>
-#include <filesystem>
+#include <fstream>
 
 struct SystemInput
 {
@@ -17,6 +16,7 @@ class IOUtils final
 {
 public:
     static SystemInput read_slae(std::ifstream& file);
+    static Matrix read_matrix(std::ifstream& file);
     static void print_matrix(const Matrix& m);
     static void print_vector(const std::vector<double>& v);
 

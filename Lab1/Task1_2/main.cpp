@@ -1,5 +1,4 @@
 #include "IOUtils.hpp"
-#include "Constants.hpp"
 #include "TridiagonalSolver.hpp"
 
 #include <filesystem>
