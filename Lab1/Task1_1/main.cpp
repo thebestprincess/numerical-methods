@@ -16,6 +16,7 @@ int solve_slae(const std::filesystem::path& file_path)
 
     for (size_t i { 0 }; i < num_systems; ++i)
     {
+        std::println("Test {}", i + 1);
         try
         {
             auto [A, b] = IOUtils::read_slae(file);
@@ -61,6 +62,7 @@ int solve_slae(const std::filesystem::path& file_path)
             Matrix P { LUResult::get_permutation_matrix(lu.P_vec) };
             if (lu.L * lu.U == P * A) std::println("L * U == P * A");
             else std::println("L * U != P * A");
+            std::println();
         }
         catch(std::exception& e)
         { 

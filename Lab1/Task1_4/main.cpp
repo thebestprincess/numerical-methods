@@ -1,3 +1,4 @@
+#include "Constants.hpp"
 #include "IOUtils.hpp"
 #include "JacobiSolver.hpp"
 #include "Matrix.hpp"
@@ -8,6 +9,7 @@
 #include <print>
 #include <string>
 #include <utility>
+#include <ranges>
 
 int solve(const std::filesystem::path& file_path, double eps)
 {
@@ -39,12 +41,18 @@ int solve(const std::filesystem::path& file_path, double eps)
         Matrix rhs = V * L;
         
         std::println("Eps: {}", eps);
-        std::println("Eigenvalues: {}", result.eigenvalues);
+        std::println("Eigenvalues: ");
+        std::print("[");
+        for (auto [index, val] : std::views::enumerate(result.eigenvalues))
+            std::print("{:.{}f}{}", val, constants::precision, (index == result.eigenvalues.size() - 1) ? "" : ",  ");
+        std::print("]\n");
         std::println("Matrix of natural vectors: ");
         IOUtils::print_matrix(V);
 
         if (Matrix::is_equal_to(lhs, rhs, eps)) std::println("Check A * V == V * L: Success");
         else std::println("Check A * V == V * L: Failed");
+        std::println();
+        
     }
 
     return 0;
