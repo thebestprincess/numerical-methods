@@ -17,16 +17,21 @@ public:
     bool is_square() const;
     bool is_symmetric() const;
     void swap_rows(size_t row1, size_t row2);
+    Matrix transpose() const;
 
     static Matrix identity(size_t n);
     
     double operator()(size_t row, size_t col) const;
     double& operator()(size_t row, size_t col);
+    Matrix& operator-=(const Matrix& rhs);
     
+    friend Matrix operator-(const Matrix& lhs, const Matrix& rhs);
     friend Matrix operator*(const Matrix& lhs, const Matrix& rhs);
     friend bool operator==(const Matrix& lhs, const Matrix& rhs);
 
     static bool is_equal_to(const Matrix& lhs, const Matrix& rhs, double eps);
 };
+
+Matrix operator-(Matrix lhs, const Matrix& rhs);
 
 #endif // MATRIX_LW1_HPP

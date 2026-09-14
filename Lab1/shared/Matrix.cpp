@@ -49,6 +49,21 @@ void Matrix::swap_rows(size_t row1, size_t row2)
     }
 }
 
+Matrix Matrix::transpose() const
+{
+    Matrix new_m { cols_, rows_ };
+
+    for (size_t i { 0 }; i < rows_; ++i)
+    {
+        for (size_t j { 0 }; j < cols_; ++j)
+        {
+            new_m(j, i) = (*this)(i, j);
+        }
+    }
+
+    return new_m;
+}
+
 Matrix Matrix::identity(size_t n)
 {
     Matrix id_mat { n, n };
@@ -85,6 +100,46 @@ bool Matrix::is_equal_to(const Matrix& lhs, const Matrix &rhs, double eps)
     }
 
     return true;
+}
+
+Matrix& Matrix::operator-=(const Matrix& rhs)
+{
+    if (rows_ != rhs.rows_ && cols_ != rhs.cols_) 
+        throw std::invalid_argument("Matrix dimensions do not match for multiplication");
+
+    Matrix result { rows_, cols_ };
+    for (size_t i { 0 }; i < rows_; ++i)
+    {
+        for (size_t j { 0 }; j < cols_; ++j)
+        {
+            (*this)(i, j) -= rhs(i, j);
+        }
+    }
+
+    return *this;
+}
+
+Matrix operator-(Matrix lhs, const Matrix& rhs)
+{
+    lhs -= rhs;
+    return lhs;
+}
+
+Matrix operator-(const Matrix& lhs, const Matrix& rhs)
+{
+    if (lhs.rows_ != rhs.rows_ && lhs.cols_ != rhs.cols_) 
+        throw std::invalid_argument("Matrix dimensions do not match for multiplication");
+
+    Matrix result { lhs.rows_, lhs.cols_ };
+    for (size_t i { 0 }; i < lhs.rows_; ++i)
+    {
+        for (size_t j { 0 }; j < lhs.cols_; ++j)
+        {
+            result(i, j) = lhs(i, j) - rhs(i, j);
+        }
+    }
+
+    return result;
 }
 
 Matrix operator*(const Matrix& lhs, const Matrix& rhs)
