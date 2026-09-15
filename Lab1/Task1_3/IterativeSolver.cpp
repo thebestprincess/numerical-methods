@@ -88,6 +88,24 @@ MatrixVectorStruct get_equivalent_system(const Matrix& A, const std::vector<doub
     return sys;
 }
 
+double calculate_matrix_norm(const Matrix& alpha)
+{
+    const size_t N { alpha.get_rows() };
+    double norm { 0.0 };
+    
+    for (size_t i { 0 }; i < N; ++i)
+    {
+        double row_sum { 0.0 };
+        for (size_t j { 0 }; j < N; ++j)
+        {
+            row_sum += std::abs(alpha(i, j));
+        }
+        norm = std::max(norm, row_sum);
+    }
+    
+    return norm;
+}
+
 double calculate_norm(const std::vector<double>& x_new, 
                       const std::vector<double>& x_old)
 {
@@ -109,8 +127,12 @@ std::expected<IterativeResult, std::string_view> IterativeSolver::solve_simple_i
     if (!expected_res.has_value()) return std::unexpected(expected_res.error());
 
     auto [new_A, new_b] { expected_res.value() };
-
     auto [alpha, beta] { get_equivalent_system(new_A, new_b) };
+
+    double alpha_norm { calculate_matrix_norm(alpha) };
+    if (alpha_norm >= 1.0) return std::unexpected("The norm of the equivalent matrix alpha is >= 1. Sufficient convergence condition is not met.");
+
+    double error_coef { alpha_norm / (1.0 - alpha_norm) };
 
     const size_t N { alpha.get_rows() }; 
     std::vector<double> old_x(N, 0.0);
@@ -133,7 +155,7 @@ std::expected<IterativeResult, std::string_view> IterativeSolver::solve_simple_i
         }
 
         ++iterations;
-    } while (calculate_norm(new_x, old_x) >= eps);
+    } while (error_coef * calculate_norm(new_x, old_x) >= eps);
 
     return IterativeResult{ std::move(new_x), iterations };
 }
@@ -144,8 +166,12 @@ std::expected<IterativeResult, std::string_view> IterativeSolver::solve_seidel(c
     if (!expected_res.has_value()) return std::unexpected(expected_res.error());
 
     auto [new_A, new_b] { expected_res.value() };
-
     auto [alpha, beta] { get_equivalent_system(new_A, new_b) };
+
+    double alpha_norm { calculate_matrix_norm(alpha) };
+    if (alpha_norm >= 1.0) return std::unexpected("The norm of the equivalent matrix alpha is >= 1. Sufficient convergence condition is not met.");
+
+    double error_coef { alpha_norm / (1.0 - alpha_norm) };
 
     const size_t N { alpha.get_rows() }; 
     std::vector<double> old_x(N, 0.0);
@@ -168,7 +194,7 @@ std::expected<IterativeResult, std::string_view> IterativeSolver::solve_seidel(c
         }
 
         ++iterations;
-    } while (calculate_norm(x, old_x) >= eps);
+    } while (error_coef * calculate_norm(x, old_x) >= eps);
 
     return IterativeResult{ std::move(x), iterations };
 }

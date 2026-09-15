@@ -41,6 +41,8 @@ int solve(const std::filesystem::path& file_path, double eps)
         Matrix rhs = V * L;
         
         std::println("Eps: {}", eps);
+        IOUtils::print_matrix(lhs);
+        IOUtils::print_matrix(rhs);
         std::println("Eigenvalues: ");
         std::print("[");
         for (auto [index, val] : std::views::enumerate(result.eigenvalues))

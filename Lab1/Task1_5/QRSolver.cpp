@@ -63,7 +63,7 @@ bool solve_characteristic_equation(const Matrix& Ak, size_t i, std::vector<std::
     return true;
 }
 
-}
+} // namespace
 
 
 
