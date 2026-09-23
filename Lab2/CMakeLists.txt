@@ -1,0 +1,2 @@
+add_subdirectory(Task2_1)
+add_subdirectory(Task2_2)
