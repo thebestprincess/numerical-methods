@@ -13,12 +13,12 @@
 template <concepts::FuncDeriv Func>
 std::pair<bool, double> check_simp_iter_method_convergence(double eps)
 {
-    double left_endpoint { Func::calc_simp_iter_dv(Func::get_a()) };
-    double right_endpoint { Func::calc_simp_iter_dv(Func::get_b()) };
+    const double left_endpoint { Func::calc_simp_iter_dv(Func::get_a()) };
+    const double right_endpoint { Func::calc_simp_iter_dv(Func::get_b()) };
 
-    double mx_abs_endpoint { (std::max(std::abs(left_endpoint), std::abs(right_endpoint))) };
+    const double mx_abs_endpoint { (std::max(std::abs(left_endpoint), std::abs(right_endpoint))) };
 
-    bool is_convergent { mx_abs_endpoint - 1.0 < eps ? true : false };
+    const bool is_convergent { mx_abs_endpoint - 1.0 < eps ? true : false };
     return {is_convergent, mx_abs_endpoint};
 } 
 
@@ -36,7 +36,7 @@ std::expected<Result, std::string_view> simp_iter_method(double eps)
 
     double prev_x { 0.0 };
     double x{ (Func::get_a() + Func::get_b()) / 2};
-    double q { result.second };
+    const double q { result.second };
     size_t iterations { 0 };
     do
     {
