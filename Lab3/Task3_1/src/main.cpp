@@ -33,6 +33,13 @@ void plot_results(
     }
 
     figure();
+    matplot::gcf()->quiet_mode(true);
+
+    auto be = std::dynamic_pointer_cast<matplot::backend::gnuplot>(matplot::gcf()->backend());
+    if (be) {
+        be->run_command("unset warnings\n");
+    }
+
     hold(on);
 
     auto p1 = plot(x_dense, y_true, "k-");
@@ -195,8 +202,8 @@ int main(
     std::println("Absolute error for Newton interpolation: {:.8e}", std::abs(exact_val - newton_val));
     std::println("Difference between Lagrange and Newton: {:.8e}", std::abs(lagrange_val - newton_val));
 
-    // std::println("");
-    // plot_results(x_nodes, y_nodes, lagrange, newton, x_star);
+    std::println("");
+    plot_results(x_nodes, y_nodes, lagrange, newton, x_star);
 
     return 0;
 }
