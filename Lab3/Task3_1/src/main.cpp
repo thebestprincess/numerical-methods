@@ -100,7 +100,10 @@ void print_lagrange_formula(
         std::print("{:.4f}", y[i]);
         for (size_t j = 0; j < x.size(); ++j)
         {
-            if (i != j) std::print(" * (x - {:.4f})/({:.4f} - {:.4f})", x[j], x[i], x[j]);
+            if (i != j)
+            {
+                std::print(" * (x - {:.4f})/({:.4f} - {:.4f})", x[j], x[i], x[j]);
+            }
         }
     }
     std::println("\n");
