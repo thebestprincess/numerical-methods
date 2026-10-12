@@ -67,7 +67,7 @@ void print_spline_check(const CubicSpline& spline)
 
 void print_second_derivative_check(const CubicSpline& spline)
 {
-    std::println("Second derivative check:");
+    std::println("\nSecond derivative check:");
     std::println("S''(x_0) = {:.6f} (0.0 is expected)", spline.second_derivative_left());
     std::cout << std::format("S''(x_n) = {:.6f} (0.0 is expected)\n\n", spline.second_derivative_right());
 }
