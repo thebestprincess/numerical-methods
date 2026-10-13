@@ -11,15 +11,13 @@ set(MATPLOTPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(
     matplotplusplus
     GIT_REPOSITORY https://github.com/alandefreitas/matplotplusplus
-    GIT_TAG        v1.2.0
+    GIT_TAG        master
 )
-
-set(_saved_cxx_flags "${CMAKE_CXX_FLAGS}")
-string(REPLACE "-Werror" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-
 FetchContent_MakeAvailable(matplotplusplus)
 
-set(CMAKE_CXX_FLAGS "${_saved_cxx_flags}")
+if(TARGET matplot)
+    target_compile_options(matplot PRIVATE -Wno-error)
+endif()
 
 
 add_subdirectory(Lab1)
