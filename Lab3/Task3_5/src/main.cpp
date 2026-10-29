@@ -19,7 +19,7 @@ struct final_result
 };
 
 [[nodiscard]]
-constexpr std::array<final_result, 5> generate_results() noexcept
+constexpr std::array<final_result, 3> generate_results() noexcept
 {
     using namespace integration;
     using namespace constants;
@@ -29,7 +29,7 @@ constexpr std::array<final_result, 5> generate_results() noexcept
     
     constexpr double exact_val { -6.0 / 49.0 };
 
-    std::array<final_result, 5> results{};
+    std::array<final_result, 3> results{};
 
     auto fill = [&](
         std::size_t idx,
@@ -52,11 +52,9 @@ constexpr std::array<final_result, 5> generate_results() noexcept
         };
     };
 
-    fill(0, "Left Rectangles",   1, left_rectangles(func, x0, h1, n1),   left_rectangles(func, x0, h2, n2));
-    fill(1, "Right Rectangles",  1, right_rectangles(func, x0, h1, n1),  right_rectangles(func, x0, h2, n2));
-    fill(2, "Middle Rectangles", 2, middle_rectangles(func, x0, h1, n1), middle_rectangles(func, x0, h2, n2));
-    fill(3, "Trapezoids",        2, trapezoids(func, x0, xk, h1, n1),    trapezoids(func, x0, xk, h2, n2));
-    fill(4, "Simpson",           4, simpson(func, x0, xk, h1, n1),       simpson(func, x0, xk, h2, n2));
+    fill(0, "Middle Rectangles", 2, middle_rectangles(func, x0, h1, n1), middle_rectangles(func, x0, h2, n2));
+    fill(1, "Trapezoids", 2, trapezoids(func, x0, xk, h1, n1), trapezoids(func, x0, xk, h2, n2));
+    fill(2, "Simpson", 4, simpson(func, x0, xk, h1, n1), simpson(func, x0, xk, h2, n2));
 
     return results;
 }

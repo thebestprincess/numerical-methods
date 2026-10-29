@@ -6,38 +6,6 @@
 namespace integration
 {
 
-[[nodiscard]]
-constexpr double left_rectangles(
-    std::invocable<double> auto&& f,
-    double a,
-    double h,
-    int n
-) noexcept
-{
-    double sum { 0.0 };
-    for (int i { 0 }; i < n; ++i)
-    {
-        sum += f(a + static_cast<double>(i) * h);
-    }
-    return sum * h;
-}
-
-[[nodiscard]]
-constexpr double right_rectangles(
-    std::invocable<double> auto&& f,
-    double a,
-    double h,
-    int n
-) noexcept
-{
-    double sum { 0.0 };
-    for (int i { 1 }; i <= n; ++i)
-    {
-        sum += f(a + static_cast<double>(i) * h);
-    }
-    return sum * h;
-}
-
 [[nodiscard]] constexpr double middle_rectangles(
     std::invocable<double> auto&& f,
     double a,
